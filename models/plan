@@ -1,0 +1,29 @@
+const mongoose = require("mongoose");
+const Joi = require("joi");
+
+const planSchema = new mongoose.Schema({
+    name: String,
+    price: Number,
+    users: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        }
+    ]
+});
+
+const Plan = mongoose.model("plan", planSchema);
+
+
+const validatePlan = (plan) => {
+    const schema = Joi.object({
+        name: Joi.required(),
+       price: Joi.required()
+    })
+    return schema.validate(plan)   
+
+}
+
+//module.exports = { User, validateUser }
+
+module.exports = { Plan, validatePlan };
